@@ -9,9 +9,9 @@ userRouter.put("/u/topup/:id", userController.topUp);
 
 userRouter.use(auth.authentication);
 
-userRouter.get("/", userController.viewUsers);
+userRouter.get("/u/users", userController.findAllUsers);
 
-userRouter.get("/:id", auth.specificUser, userController.viewSpecificUser);
+userRouter.get("/u/:id", auth.specificUser, userController.viewSpecificUser);
 userRouter.delete("/:id", auth.specificUser, userController.deleteUser);
 
 module.exports = userRouter;

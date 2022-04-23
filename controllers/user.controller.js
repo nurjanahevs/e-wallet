@@ -1,7 +1,7 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
+const transactionModel = require('../models/transaction.model')
 class userController {
   static async register(req, res, next) {
     const { email, name, identityNumb, password } = req.body;
@@ -20,19 +20,14 @@ class userController {
     }
   }
 
-  static async viewUsers(req, res, next) {
+  static async findAllUsers(req, res, next) {
     try {
-      const result = await User.find().populate("saldo").select("-__v");
-      if (result.length === 0) {
-        throw { name: "NOT_FOUND_ALL" };
-      } else {
-        res.status(200).json({ message: "Show the Data Users", data: result });
-      }
-    } catch (err) {
-      next(err);
+      const result = await User.find();
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
     }
   }
-
   static async viewSpecificUser(req, res, next) {
     const { id } = req.params;
 
@@ -83,18 +78,25 @@ class userController {
   }
 
   static async topUp(req, res, next) {
-    const { id }   = req.params;
+    const { id } = req.params;
     const { saldoTopUp } = req.body;
     try {
-      const result = await User.findByIdAndUpdate(id,
-        { saldoTopUp },
-        { new: true,}
-        );
-        if (result) {
+    const {operation, amount, references} = req.body;
+    const datenow = Date.now()
+      const result = await User.findByIdAndUpdate(id, { saldoTopUp }, { new: true });
+      if (result) {
         result.saldoBalance = result.saldoTopUp + result.saldoBalance;
-        result.save();
+        result.save()
+        const addtoTransaction = transactionModel.create({
+          operation: operation,
+          amount: amount,
+          references: references,
+          datenow: datenow,
+        });
+        // res.status(200).json({ message: "Top Up Berhasil!", data: addtoTransaction });
+        transactionModel().save()
       }
-        res.status(200).json({ message: "Top Up Berhasil!", data: result });
+      res.status(200).json({ message: "Top Up Berhasil!", data: result });
     } catch (err) {
       next(err);
     }

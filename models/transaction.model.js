@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("./user.model");
 
-const operations = ["topup", "transfer" ];
+const operations = ["topup", "transfer"];
 
 const transactionSchema = new mongoose.Schema(
   {

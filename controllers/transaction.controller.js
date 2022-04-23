@@ -4,7 +4,8 @@ const Transaction = require("../models/transaction.model");
 class transactionController {
   static async makeTransaction(req, res, next) {
     try {
-      const { id } = req.params
+      const { id1 } = req.params
+      const { id2 } = req.body
       const { operations, accountNumber, destinationAccountNumber, amount, reference } = req.body;
       const result = await Transaction.create({
         operations,
