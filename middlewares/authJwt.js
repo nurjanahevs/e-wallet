@@ -7,7 +7,7 @@ class authJwt {
     if (!access_token) {
       throw { name: "Mising_Token" };
     }
-    jwt.verify(access_token, "evasitinurjanah", (err, decoded) => {
+    jwt.verify(access_token, "-e-wallet", (err, decoded) => {
       if (err) {
         throw { name: "INVALID_TOKEN"};
       }

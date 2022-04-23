@@ -23,11 +23,16 @@ class userController {
   static async findAllUsers(req, res, next) {
     try {
       const result = await User.find();
-      res.status(200).json(result);
-    } catch (error) {
-      next(error);
+      if (result.length === 0) {
+        throw { name: "NOT_FOUND_ALL" };
+      } else {
+        res.status(200).json({ message: "Show the Data Users", data: result });
+      }
+    } catch (err) {
+      next(err);
     }
   }
+
   static async viewSpecificUser(req, res, next) {
     const { id } = req.params;
 
@@ -87,16 +92,29 @@ class userController {
       if (result) {
         result.saldoBalance = result.saldoTopUp + result.saldoBalance;
         result.save()
-        const addtoTransaction = transactionModel.create({
-          operation: operation,
-          amount: amount,
-          references: references,
-          datenow: datenow,
-        });
+        // const addtoTransaction = transactionModel.create({
+        //   operation: operation,
+        //   amount: amount,
+        //   references: references,
+        //   datenow: datenow,
+        // });
         // res.status(200).json({ message: "Top Up Berhasil!", data: addtoTransaction });
-        transactionModel().save()
+        // transactionModel().save()
       }
       res.status(200).json({ message: "Top Up Berhasil!", data: result });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  static async transfer(req, res, next) {
+    const {id1} = req.params
+    const { id2, jumlahTransfer } = req.body;
+    try {
+      const result = await User.findByIdAndUpdate(id1, {id2, jumlahTransfer}, {new: true});
+      if(result) {
+
+      }
     } catch (err) {
       next(err);
     }

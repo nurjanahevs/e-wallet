@@ -9,7 +9,7 @@ const userSchema = new Schema(
     password: { type: String, required: true, minlength: 6, maxlength: 120 },
     saldoTopUp: { type: Number, default: 0 },
     saldoBalance: { type: Number, default: 0 },
-    transaction: [{ type: Schema.Types.ObjectId, ref: "transaction" }],
+    // transaction: [{ type: Schema.Types.ObjectId, ref: "transaction" }],
   },
   {
     timestamps: true,

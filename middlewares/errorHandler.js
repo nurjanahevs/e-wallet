@@ -1,4 +1,5 @@
 module.exports = (err, res) => {
+  console.log(err)
   let code = 0;
   let name = err.name;
   let message = "";
@@ -35,4 +36,5 @@ module.exports = (err, res) => {
 
   res.status(code).json({ success: false, message: message });
 };
+
 

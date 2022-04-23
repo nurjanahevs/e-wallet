@@ -17,13 +17,12 @@ app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
+app.get("/home", (req, res) => {
   res.send("Welcome to My App");
 });
 
 app.use("/api", router);
 app.use(errorHandler);
-
 
 
 app.listen(port, () => {
