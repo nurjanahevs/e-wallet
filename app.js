@@ -1,4 +1,6 @@
 const express = require("express");
+const dotenv = require("dotenv");
+require('dotenv').config();
 
 const cors = require('cors')
 
@@ -7,7 +9,7 @@ const router = require("./routers/routes");
 const errorHandler = require("./middlewares/errorHandler");
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT ||8001;
 
 connectDB();
 
@@ -21,6 +23,8 @@ app.get("/", (req, res) => {
 
 app.use("/api", router);
 app.use(errorHandler);
+
+
 
 app.listen(port, () => {
   console.log(`App Running in http://localhost:${port}`);
